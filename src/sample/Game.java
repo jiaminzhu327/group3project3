@@ -202,7 +202,15 @@ public class Game {
         gameState.setValue(!gameState.getValue());
     }
 
-    public void reset() {}
+    public void reset() {
+        setRandomWord();
+        prepTmpAnswer();
+        prepLetterAndPosArray();
+        moves = 0;
+        gameState.setValue(false);
+        createGameStatusBinding();
+
+    }
 
     private int numOfTries() {
         return 5; // TODO, fix me
