@@ -21,6 +21,9 @@ public class Game {
     //private String[] words;
     private int moves;
     private int index;
+    private int numOfMiss;
+    private int numOfCorrect;
+    private StringBuilder missedLetters;
     private final ReadOnlyObjectWrapper<GameStatus> gameStatus;
     private ObjectProperty<Boolean> gameState = new ReadOnlyObjectWrapper<Boolean>();
 
@@ -56,6 +59,9 @@ public class Game {
     }
 
     public Game() {
+        //Set up miss letter string
+        missedLetters = new StringBuilder();
+
         gameStatus = new ReadOnlyObjectWrapper<GameStatus>(this, "gameStatus", GameStatus.OPEN);
         gameStatus.addListener(new ChangeListener<GameStatus>() {
             @Override
@@ -75,6 +81,8 @@ public class Game {
 
         gameState.setValue(false); // initial state
         createGameStatusBinding();
+
+
     }
 
     private void createGameStatusBinding() {
@@ -91,7 +99,7 @@ public class Game {
                     return check;
                 }
 
-                if(tmpAnswer.trim().length() == 0){
+                if(tmpAnswer.trim().length() == 0 && missedLetters.length()==0){
                     log("new game");
                     return GameStatus.OPEN;
                 }
@@ -164,6 +172,10 @@ public class Game {
         tmpAnswer = sb.toString();
     }
 
+    private void setHiddenWord(){
+
+    }
+
     private void prepLetterAndPosArray() {
         letterAndPosArray = new String[answer.length()];
         for(int i = 0; i < answer.length(); i++) {
@@ -198,8 +210,16 @@ public class Game {
     public void makeMove(String letter) {
         log("\nin makeMove: " + letter);
         index = update(letter);
+
+        if(index == -1){
+            missedLetters.append(letter);
+            System.out.println("Letter added: " + missedLetters);
+        }
+
         // this will toggle the state of the game
         gameState.setValue(!gameState.getValue());
+
+
     }
 
     public void reset() {
@@ -207,6 +227,7 @@ public class Game {
         prepTmpAnswer();
         prepLetterAndPosArray();
         moves = 0;
+        missedLetters = new StringBuilder();
         gameState.setValue(false);
         createGameStatusBinding();
 
@@ -214,7 +235,7 @@ public class Game {
 
     private int numOfTries() {
         //System.out.println("number of tries is: " + answer.length());
-        return answer.length();
+        return 7;
     }
 
     public static void log(String s) {
