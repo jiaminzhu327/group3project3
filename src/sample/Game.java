@@ -152,7 +152,7 @@ public class Game {
 //        //words = new Hangman().readFile("C:\\Users\\TRans_MKA\\IdeaProjects\\HelloWorld2\\words.txt");
         int idx = (int) (Math.random() * allWords.size());
         answer = allWords.get(idx);
-        //log("answer is: "+answer);
+        log("answer is: "+answer);//test
         //answer = "apple";//words[idx].trim(); // remove new line character
     }
 
@@ -213,7 +213,8 @@ public class Game {
     }
 
     private int numOfTries() {
-        return 5; // TODO, fix me
+        //System.out.println("number of tries is: " + answer.length());
+        return answer.length();
     }
 
     public static void log(String s) {
