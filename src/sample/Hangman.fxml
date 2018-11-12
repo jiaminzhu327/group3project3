@@ -31,11 +31,19 @@
 
     <bottom>
         <VBox>
-            <Label fx:id="statusLabel">
-                <styleClass>
-                    <String fx:value="status"/>
-                </styleClass>
-            </Label>
+            <GridPane>
+                <Label fx:id="statusLabel" GridPane.columnIndex="0">
+                    <styleClass>
+                        <String fx:value="status"/>
+                    </styleClass>
+                </Label>
+                <Label fx:id="currentAnswer" GridPane.columnIndex="0" GridPane.rowIndex="1"> <!-- add -->
+                    <styleClass>
+                        <String fx:value="answer"/>
+                    </styleClass>
+                </Label>
+            </GridPane>
+
             <GridPane>
                 <Label fx:id="enterALetterLabel" GridPane.columnIndex="0">
                     <styleClass>
@@ -44,6 +52,21 @@
                 </Label>
                 <TextField fx:id="textField" GridPane.columnIndex="1">
                 </TextField>
+                <Label fx:id="inputLabel" GridPane.columnIndex="0" GridPane.rowIndex="1"> <!-- add -->
+                    <styleClass>
+                        <String fx:value="status"/>
+                    </styleClass>
+                </Label>
+                <TextField fx:id="showInput" GridPane.columnIndex="1" GridPane.rowIndex="1"> <!-- add -->
+                </TextField>
+            </GridPane>
+
+            <GridPane> <!-- add -->
+                <Label fx:id="inputHistory" GridPane.columnIndex="0">
+                    <styleClass>
+                        <String fx:value="history" />
+                    </styleClass>
+                </Label>
             </GridPane>
         </VBox>
     </bottom>

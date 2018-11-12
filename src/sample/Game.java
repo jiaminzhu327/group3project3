@@ -24,6 +24,8 @@ public class Game {
     private int numOfMiss;
     private int numOfCorrect;
     private StringBuilder missedLetters;
+    private StringBuilder guessedWord;
+    private StringBuilder hiddenAnswer;
     private final ReadOnlyObjectWrapper<GameStatus> gameStatus;
     private ObjectProperty<Boolean> gameState = new ReadOnlyObjectWrapper<Boolean>();
 
@@ -53,7 +55,7 @@ public class Game {
         OPEN {
             @Override
             public String toString() {
-                return "Game on, let's go!";
+                return "Game on, enter the first letter you guess.";
             }
         }
     }
@@ -61,6 +63,11 @@ public class Game {
     public Game() {
         //Set up miss letter string
         missedLetters = new StringBuilder();
+        guessedWord = new StringBuilder();
+        hiddenAnswer = new StringBuilder();
+        numOfMiss = 0;
+        numOfCorrect = 0;
+
 
         gameStatus = new ReadOnlyObjectWrapper<GameStatus>(this, "gameStatus", GameStatus.OPEN);
         gameStatus.addListener(new ChangeListener<GameStatus>() {
@@ -160,8 +167,22 @@ public class Game {
 //        //words = new Hangman().readFile("C:\\Users\\TRans_MKA\\IdeaProjects\\HelloWorld2\\words.txt");
         int idx = (int) (Math.random() * allWords.size());
         answer = allWords.get(idx);
+
+//        guessedWord.setLength(0);
+//        for(int i =0; i<answer.length();i++){
+//            guessedWord.append('*');
+//        }
+
         log("answer is: "+answer);//test
         //answer = "apple";//words[idx].trim(); // remove new line character
+    }
+
+     public StringBuilder setHiddenAnswer(){
+        for (int i =0; i<answer.length();i++)
+        {
+            hiddenAnswer.append('*');
+        }
+        return hiddenAnswer;
     }
 
     private void prepTmpAnswer() {
@@ -172,9 +193,6 @@ public class Game {
         tmpAnswer = sb.toString();
     }
 
-    private void setHiddenWord(){
-
-    }
 
     private void prepLetterAndPosArray() {
         letterAndPosArray = new String[answer.length()];
@@ -213,7 +231,18 @@ public class Game {
 
         if(index == -1){
             missedLetters.append(letter);
-            System.out.println("Letter added: " + missedLetters);
+            //System.out.println("Letter added: " + missedLetters);
+        }
+        else{
+            int k = hiddenAnswer.indexOf(letter);
+            char c = letter.charAt(0);
+            while(k>=0) {
+                hiddenAnswer.setCharAt(k, c);
+                numOfCorrect++;
+                k = hiddenAnswer.indexOf(letter, k + 1);
+                }
+
+
         }
 
         // this will toggle the state of the game
@@ -228,6 +257,7 @@ public class Game {
         prepLetterAndPosArray();
         moves = 0;
         missedLetters = new StringBuilder();
+        guessedWord = new StringBuilder();
         gameState.setValue(false);
         createGameStatusBinding();
 

@@ -21,7 +21,38 @@
     -fx-font-size: 128pt ;
 }
 
+/* change */
 .status {
-    -fx-font-size: 24pt ;
+    -fx-font-size: 18pt ;
     -fx-text-fill: sandybrown ;
+}
+
+/* add */
+.answer {
+    -fx-font-size: 18pt ;
+    -fx-text-fill: red;
+    -fx-text-alignment: right;
+}
+.hiddenAnswer{
+    -fx-font-size: 18pt;
+    -fx-text-fill: red;
+
+}
+
+/* add */
+#textField{
+    -fx-pref-width: 40pt;
+    -fx-text-alignment: center;
+}
+
+/* add */
+#showInput {
+    -fx-pref-width: 40pt;
+    -fx-text-alignment: center;
+}
+
+/* add */
+.history{
+    -fx-font-size: 18pt ;
+    -fx-text-fill: orange ;
 }
