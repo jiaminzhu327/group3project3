@@ -14,8 +14,9 @@ import java.util.List;
 
 public class Game {
 
+    public String tmpAnswer;
     private String answer;
-    private String tmpAnswer;
+    //private String tmpAnswer;
     private String[] letterAndPosArray;
     private List<String> allWords;
     //private String[] words;
@@ -106,7 +107,7 @@ public class Game {
                     return check;
                 }
 
-                if(tmpAnswer.trim().length() == 0 && missedLetters.length()==0){
+                if(numOfCorrect == 0 && missedLetters.length()==0){
                     log("new game");
                     return GameStatus.OPEN;
                 }
@@ -135,7 +136,7 @@ public class Game {
     private void setRandomWord() {
         try{
             String encoding = "GBK";
-            File file = new File("C:\\Users\\TRans_MKA\\IdeaProjects\\HelloWorld2\\words.txt");
+            File file = new File("words.txt");
             if(file.isFile()&&file.exists()){
                 log("File Opened");//test
                 InputStreamReader reader = new InputStreamReader(new FileInputStream(file),encoding);
@@ -178,6 +179,8 @@ public class Game {
     }
 
      public StringBuilder setHiddenAnswer(){
+        hiddenAnswer = new StringBuilder();
+
         for (int i =0; i<answer.length();i++)
         {
             hiddenAnswer.append('*');
@@ -188,7 +191,7 @@ public class Game {
     private void prepTmpAnswer() {
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < answer.length(); i++) {
-            sb.append(" ");
+            sb.append('*');
         }
         tmpAnswer = sb.toString();
     }
@@ -215,10 +218,14 @@ public class Game {
 
     private int update(String input) {
         int index = getValidIndex(input);
+
+        StringBuilder sb = new StringBuilder(tmpAnswer);
+        //sb.append(hiddenAnswer);
         if(index != -1) {
-            StringBuilder sb = new StringBuilder(tmpAnswer);
+
             sb.setCharAt(index, input.charAt(0));
             tmpAnswer = sb.toString();
+
         }
         return index;
     }
@@ -229,33 +236,66 @@ public class Game {
         log("\nin makeMove: " + letter);
         index = update(letter);
 
-        if(index == -1){
+        if(index == -1 && missedLetters.indexOf(letter)<0 ){
             missedLetters.append(letter);
             //System.out.println("Letter added: " + missedLetters);
         }
-        else{
-            int k = hiddenAnswer.indexOf(letter);
+        else if(index == -1 && missedLetters.indexOf(letter)>=0){
+            //test
+            System.out.println("The letter "+ letter + " you have already guessed.");
+        }
+        else if (index!=-1 && guessedWord.indexOf(letter)<0) {
             char c = letter.charAt(0);
-            while(k>=0) {
-                hiddenAnswer.setCharAt(k, c);
-                numOfCorrect++;
-                k = hiddenAnswer.indexOf(letter, k + 1);
+            for (int i =0;i<answer.length();i++){
+                if (answer.substring(i,i+1).equals(letter)){
+                    hiddenAnswer.setCharAt(i, c);
+                    tmpAnswer = hiddenAnswer.toString();
+                    numOfCorrect++;
+//                    sb.setCharAt(index, letter.charAt(0));
+//                    tmpAnswer = sb.toString();
+//                    numOfCorrect++;
                 }
+            }
 
 
+
+
+
+//            for (int i = 0; i < answer.length(); i++) {
+//                int k = answer.indexOf(letter);
+//                char c = letter.charAt(0);
+//                while (k >= 0) {
+//                    hiddenAnswer.setCharAt(k, c);
+//                    k = answer.indexOf(letter, k + 1);
+//                }
+//
+//            }
+            //log("Tmp Answer is: " +tmpAnswer);
+            guessedWord.append(letter);
+            log("guessed word is: " + guessedWord);
+
+        }else if(index!=-1 && guessedWord.indexOf(letter)>=0){
+
+            log("NO4. guessed word is: " + guessedWord);
+            log("Letter "+letter+" is in the word and you have already guessed!");
         }
 
         // this will toggle the state of the game
         gameState.setValue(!gameState.getValue());
-
+        //test
+        System.out.println("Number of Correct is " + numOfCorrect);
 
     }
 
     public void reset() {
+
         setRandomWord();
+        setHiddenAnswer();
+        //hiddenAnswer = new StringBuilder();
         prepTmpAnswer();
         prepLetterAndPosArray();
         moves = 0;
+        numOfCorrect = 0;
         missedLetters = new StringBuilder();
         guessedWord = new StringBuilder();
         gameState.setValue(false);
