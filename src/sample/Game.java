@@ -42,7 +42,7 @@ public class Game {
         GAME_OVER {
             @Override
             public String toString() {
-                return "Game over! Click New Game to start a new game.";
+                return "Game over! Press Enter to start a new game.";
             }
         },
         BAD_GUESS {
@@ -59,7 +59,7 @@ public class Game {
         WON {
             @Override
             public String toString() {
-                return "You won the game!";
+                return "You won the game! Press Enter to start a new game.";
             }
         },
         OPEN {
