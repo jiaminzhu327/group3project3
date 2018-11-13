@@ -1,5 +1,12 @@
 package sample;
 
+/*
+GitHub Account and URL:
+
+https://github.com/jiaminzhu327/group3project3
+
+ */
+
 
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -68,6 +75,7 @@ public class GameController {
                 if(newValue.length() > 0) {
                     System.out.print(newValue);
                     game.makeMove(newValue);
+                    //statusLabel.textProperty().bind(Bindings.format("%s", game.gameStatusProperty()));
                     currentAnswer.textProperty().bind(Bindings.format("%s", "  Answer: " + game.tmpAnswer));
                     drawHangman(game.getMoves());
                     textField.clear();

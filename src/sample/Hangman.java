@@ -1,5 +1,13 @@
 package sample;
 
+/*
+GitHub Account and URL:
+
+https://github.com/jiaminzhu327/group3project3
+
+ */
+
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;

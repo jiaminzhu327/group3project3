@@ -1,5 +1,12 @@
 package sample;
 
+/*
+GitHub Account and URL:
+
+https://github.com/jiaminzhu327/group3project3
+
+ */
+
 import javafx.beans.Observable;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.ObjectProperty;
@@ -35,29 +42,36 @@ public class Game {
         GAME_OVER {
             @Override
             public String toString() {
-                return "Game over!";
+                return "Game over! Click New Game to start a new game.";
             }
         },
         BAD_GUESS {
             @Override
-            public String toString() { return "Bad guess..."; }
+            public String toString() {
+                return "The letter is not in the answer, Try again!"; }
         },
         GOOD_GUESS {
             @Override
             public String toString() {
-                return "Good guess!";
+                return "Yes! The letter is in the answer!";
             }
         },
         WON {
             @Override
             public String toString() {
-                return "You won!";
+                return "You won the game!";
             }
         },
         OPEN {
             @Override
             public String toString() {
-                return "Game on, enter the first letter you guess.";
+                return "Game on, enter the first letter you guess: ";
+            }
+        },
+        ALREADY_GUESS{
+            @Override
+            public String toString(){
+                return "The letter you typed has already guessed!";
             }
         }
     }
@@ -316,7 +330,7 @@ public class Game {
 
     private GameStatus checkForWinner(int status) {
         log("in checkForWinner");
-        if(tmpAnswer.equals(answer)) {
+        if(numOfCorrect == tmpAnswer.length()){
             log("won");
             return GameStatus.WON;
 
