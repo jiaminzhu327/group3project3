@@ -9,6 +9,9 @@
 <?import java.lang.String?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.layout.Pane?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml">
 
@@ -22,11 +25,11 @@
     </top>
 
     <center>
-        <VBox fx:id="board">
+        <Pane fx:id="board">
             <styleClass>
                 <String fx:value="hangman-board"/>
             </styleClass>
-        </VBox>
+        </Pane>
     </center>
 
     <bottom>
@@ -62,7 +65,12 @@
             </GridPane>
 
             <GridPane> <!-- add -->
-                <Label fx:id="inputHistory" GridPane.columnIndex="0">
+                <Label fx:id="movesLeft" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <styleClass>
+                        <String fx:value="history" />
+                    </styleClass>
+                </Label>
+                <Label fx:id="inputHistory" GridPane.columnIndex="0" GridPane.rowIndex="1">
                     <styleClass>
                         <String fx:value="history" />
                     </styleClass>

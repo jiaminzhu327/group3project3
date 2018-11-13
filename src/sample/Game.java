@@ -8,6 +8,7 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
+import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +69,7 @@ public class Game {
         hiddenAnswer = new StringBuilder();
         numOfMiss = 0;
         numOfCorrect = 0;
+        moves = 5;
 
 
         gameStatus = new ReadOnlyObjectWrapper<GameStatus>(this, "gameStatus", GameStatus.OPEN);
@@ -85,7 +87,6 @@ public class Game {
         setRandomWord();
         prepTmpAnswer();
         prepLetterAndPosArray();
-        moves = 0;
 
         gameState.setValue(false); // initial state
         createGameStatusBinding();
@@ -116,7 +117,6 @@ public class Game {
                     return GameStatus.GOOD_GUESS;
                 }
                 else {
-                    moves++;
                     log("bad guess");
                     return GameStatus.BAD_GUESS;
                     //printHangman();
@@ -178,7 +178,7 @@ public class Game {
         //answer = "apple";//words[idx].trim(); // remove new line character
     }
 
-     public StringBuilder setHiddenAnswer(){
+    public StringBuilder setHiddenAnswer(){
         hiddenAnswer = new StringBuilder();
 
         for (int i =0; i<answer.length();i++)
@@ -238,6 +238,8 @@ public class Game {
 
         if(index == -1 && missedLetters.indexOf(letter)<0 ){
             missedLetters.append(letter);
+            moves--;
+            System.out.println("You have " + moves + " moves left!");
             //System.out.println("Letter added: " + missedLetters);
         }
         else if(index == -1 && missedLetters.indexOf(letter)>=0){
@@ -256,21 +258,6 @@ public class Game {
 //                    numOfCorrect++;
                 }
             }
-
-
-
-
-
-//            for (int i = 0; i < answer.length(); i++) {
-//                int k = answer.indexOf(letter);
-//                char c = letter.charAt(0);
-//                while (k >= 0) {
-//                    hiddenAnswer.setCharAt(k, c);
-//                    k = answer.indexOf(letter, k + 1);
-//                }
-//
-//            }
-            //log("Tmp Answer is: " +tmpAnswer);
             guessedWord.append(letter);
             log("guessed word is: " + guessedWord);
 
@@ -285,6 +272,25 @@ public class Game {
         //test
         System.out.println("Number of Correct is " + numOfCorrect);
 
+
+    }
+
+    public int getMoves()
+    {
+        return moves;
+    }
+
+    public int getNumOfCorrect(){
+        return numOfCorrect;
+    }
+
+    public int getAnswerLength(){
+        return hiddenAnswer.length();
+    }
+
+    private int numOfTries() {
+        //System.out.println("number of tries is: " + answer.length());
+        return 0;
     }
 
     public void reset() {
@@ -294,7 +300,7 @@ public class Game {
         //hiddenAnswer = new StringBuilder();
         prepTmpAnswer();
         prepLetterAndPosArray();
-        moves = 0;
+        moves = 5;
         numOfCorrect = 0;
         missedLetters = new StringBuilder();
         guessedWord = new StringBuilder();
@@ -303,10 +309,6 @@ public class Game {
 
     }
 
-    private int numOfTries() {
-        //System.out.println("number of tries is: " + answer.length());
-        return 7;
-    }
 
     public static void log(String s) {
         System.out.println(s);
@@ -317,6 +319,7 @@ public class Game {
         if(tmpAnswer.equals(answer)) {
             log("won");
             return GameStatus.WON;
+
         }
         else if(moves == numOfTries()) {
             log("game over");
