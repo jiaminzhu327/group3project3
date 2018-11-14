@@ -69,9 +69,6 @@ public class Hangman extends Application {
 //        }
 //        return filePath;
 //    }
-    public static void log(List<String> s) {
-        System.out.println(s);
-    }
 
     public static void main(String[] args) {
 //        String filePath = "C:\\Users\\TRans_MKA\\IdeaProjects\\HelloWorld2\\words.txt";

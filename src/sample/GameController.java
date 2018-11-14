@@ -62,10 +62,13 @@ public class GameController {
     private Label inputHistory; /* add */
     @FXML
     private Label movesLeft;
+    @FXML
+    private Label isGuessed;
+
 
     public void initialize() throws IOException {
         System.out.println("in initialize");
-        drawHangman(5);
+        drawHangman(6);
         addTextBoxListener();
         setUpStatusLabelBindings();
     }
@@ -82,6 +85,15 @@ public class GameController {
                     drawHangman(game.getMoves());
                     textField.clear();
                     showInput.setText(newValue); /* add */
+
+                    if(game.getIsGuessed() == true)
+                    {
+                        statusLabel.textProperty().bind(Bindings.format("%s","The letter " + newValue + " you have already guessed!"));
+                    }else
+                    {
+                        statusLabel.textProperty().bind(Bindings.format("%s",game.gameStatusProperty()));
+                    }
+
                     history = history + newValue; /* add */
                     movesLeft.textProperty().bind(Bindings.format("%s", "You have " + game.getMoves() + " moves left!"));
                     inputHistory.textProperty().bind(Bindings.format("%s", "The letter you have guessed: " + history)); /* add */
@@ -93,6 +105,7 @@ public class GameController {
 
             }
         });
+        //Add Key Listener
         textField.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -164,6 +177,10 @@ public class GameController {
         rightLeg.setEndX(250);
         rightLeg.setEndY(230);
 
+        if(n==5)
+        {
+            board.getChildren().add(c);
+        }
 
         if(n==4)
         {
@@ -187,11 +204,11 @@ public class GameController {
             board.getChildren().add(rightLeg);
             textField.setEditable(false);
         }
-        if(n==5)
+        if(n==6)
         {
             board.getChildren().clear();
             board.getChildren().addAll(rope,stick1,stick2,stick3);
-            board.getChildren().add(c);
+
         }
     }
 
@@ -199,7 +216,7 @@ public class GameController {
 
     @FXML
     private void newHangman() {
-        drawHangman(5);
+        drawHangman(6);
         textField.setEditable(true);
         game.reset();
         currentAnswer.textProperty().bind(Bindings.format("%s", "  Answer: " + game.setHiddenAnswer())); /* add */
